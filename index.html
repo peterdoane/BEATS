@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sweet Beetz</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.css">
+  </head>
+  <body>
+    <a id="bassDrum1" class="bd waves-effect waves-light btn-large" data-sound="BD0000.WAV">1</a>
+    <a id="bassDrum2" class="bd waves-effect waves-light btn-large" data-sound="BD0010.WAV">2</a>
+    <a id="bassDrum3" class="bd waves-effect waves-light btn-large" data-sound="BD0025.WAV">3</a>
+    <a id="bassDrum4" class="bd waves-effect waves-light btn-large" data-sound="BD0050.WAV">4</a>
+    <a id="bassDrum5" class="bd waves-effect waves-light btn-large" data-sound="BD0075.WAV">5</a>
+    <a id="bassDrum6" class="bd waves-effect waves-light btn-large" data-sound="BD1000.WAV">6</a>
+    <a id="bassDrum7" class="bd waves-effect waves-light btn-large" data-sound="BD1010.WAV">7</a>
+    <a id="bassDrum8" class="bd waves-effect waves-light btn-large" data-sound="BD1025.WAV">8</a>
+    <a id="bassDrum9" class="bd waves-effect waves-light btn-large" data-sound="BD1050.WAV">9</a>
+    <a id="bassDrum10" class="bd waves-effect waves-light btn-large" data-sound="BD1075.WAV">10</a>
+    <a id="bassDrum11" class="bd waves-effect waves-light btn-large" data-sound="BD2500.WAV">11</a>
+    <a id="bassDrum12" class="bd waves-effect waves-light btn-large" data-sound="BD2510.WAV">12</a>
+    <a id="bassDrum13" class="bd waves-effect waves-light btn-large" data-sound="BD2525.WAV">13</a>
+    <a id="bassDrum14" class="bd waves-effect waves-light btn-large" data-sound="BD2550.WAV">14</a>
+    <a id="bassDrum15" class="bd waves-effect waves-light btn-large" data-sound="BD2575.WAV">15</a>
+    <a id="bassDrum16" class="bd waves-effect waves-light btn-large" data-sound="BD5000.WAV">16</a>
+  </body>
+  <script type='text/javascript'>
+    // Instantiate new audio context
+    var audioContext = new AudioContext();
+
+    // Load audioContext
+    var loadAudio = function(object,url){
+      var request = new XMLHttpRequest()
+      request.open('GET', url, true);
+      request.responseType = 'arraybuffer';
+      request.onload = function() {
+        audioContext.decodeAudioData(request.response, function(buffer){
+          object.buffer = buffer;
+        });
+      }
+      request.send();
+    }
+
+    // Assign properties to audio object
+    var assignAudioProperties = function (object) {
+      // Name audio after element ID
+      object.name = object.id;
+      // Assign object source to value of data-sound attrib
+      object.source =  $(object).data('sound');
+      // Load the URI & assign to document on load
+      loadAudio(object, object.source);
+      // Assign play method to audio object
+      object.play = function(){
+        var s = context.createBufferSource();
+        s.buffer = object.buffer;
+        s.connect(context.destination);
+        s.start(0);
+        object.s = s;
+      }
+    }
+
+    // Assign audio to elements
+
+    // Assign properties to elements
+    $('.bd').each(function () {
+      assignAudioProperties(this);
+    })
+
+    // Render audio to client
+
+
+
+
+  </script>
+</html>
